@@ -5,19 +5,28 @@ import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { CommandPalette } from '@/components/layout/CommandPalette';
 import { AIChatPanel } from '@/components/ai/AIChatPanel';
+import { SemanticSearch } from '@/components/search/SemanticSearch';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { useNotes, createNote } from '@/lib/db/hooks';
+import { useUIStore } from '@/stores/ui-store';
+import { preloadEmbeddingModel } from '@/lib/search/embeddings';
 import { FileText, Plus, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const router = useRouter();
   const notes = useNotes();
+  const { semanticSearchOpen, setSemanticSearchOpen } = useUIStore();
 
   const handleNewNote = async () => {
     const id = await createNote();
     router.push(`/notes/${id}`);
   };
+
+  // Preload embedding model in background
+  useEffect(() => {
+    preloadEmbeddingModel();
+  }, []);
 
   // Redirect to first note if exists
   useEffect(() => {
@@ -81,6 +90,7 @@ export default function Home() {
 
       <CommandPalette />
       <AIChatPanel />
+      <SemanticSearch open={semanticSearchOpen} onOpenChange={setSemanticSearchOpen} />
     </div>
   );
 }

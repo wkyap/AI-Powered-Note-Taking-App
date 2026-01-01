@@ -10,6 +10,7 @@ import {
   PanelLeftClose,
   PanelLeft,
   Pin,
+  Zap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -22,7 +23,7 @@ import { formatDistanceToNow } from 'date-fns';
 export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { sidebarOpen, toggleSidebar, setCommandPaletteOpen, toggleAIPanel } = useUIStore();
+  const { sidebarOpen, toggleSidebar, setCommandPaletteOpen, toggleAIPanel, setSemanticSearchOpen } = useUIStore();
   const notes = useNotes();
   const pinnedNotes = usePinnedNotes();
 
@@ -39,13 +40,16 @@ export function Sidebar() {
         <Button variant="ghost" size="icon" onClick={toggleSidebar} className="mb-3">
           <PanelLeft className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" onClick={handleNewNote}>
+        <Button variant="ghost" size="icon" onClick={handleNewNote} title="New note">
           <Plus className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" onClick={() => setCommandPaletteOpen(true)}>
+        <Button variant="ghost" size="icon" onClick={() => setCommandPaletteOpen(true)} title="Quick search">
           <Search className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" onClick={toggleAIPanel}>
+        <Button variant="ghost" size="icon" onClick={() => setSemanticSearchOpen(true)} title="Semantic search">
+          <Zap className="h-4 w-4" />
+        </Button>
+        <Button variant="ghost" size="icon" onClick={toggleAIPanel} title="AI Assistant">
           <Sparkles className="h-4 w-4" />
         </Button>
       </div>
@@ -73,10 +77,20 @@ export function Sidebar() {
           size="icon"
           className="h-8 w-8"
           onClick={() => setCommandPaletteOpen(true)}
+          title="Quick search (Cmd+K)"
         >
           <Search className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={toggleAIPanel}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
+          onClick={() => setSemanticSearchOpen(true)}
+          title="Semantic search"
+        >
+          <Zap className="h-4 w-4" />
+        </Button>
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={toggleAIPanel} title="AI Assistant">
           <Sparkles className="h-4 w-4" />
         </Button>
       </div>

@@ -6,6 +6,7 @@ import { Pin, PinOff, Trash2, MoreHorizontal } from 'lucide-react';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { CommandPalette } from '@/components/layout/CommandPalette';
 import { AIChatPanel } from '@/components/ai/AIChatPanel';
+import { SemanticSearch } from '@/components/search/SemanticSearch';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { Editor } from '@/components/editor/Editor';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useNote, updateNote, deleteNote } from '@/lib/db/hooks';
+import { useUIStore } from '@/stores/ui-store';
+import { updateNoteEmbedding } from '@/lib/search/semantic';
 import { toast } from 'sonner';
 import type { JSONContent } from '@tiptap/react';
 
@@ -27,6 +30,8 @@ export default function NotePage() {
   const note = useNote(noteId);
   const [title, setTitle] = React.useState('');
   const saveTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const embeddingTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const { semanticSearchOpen, setSemanticSearchOpen } = useUIStore();
 
   // Initialize title from note
   React.useEffect(() => {
@@ -55,6 +60,14 @@ export default function NotePage() {
     saveTimeoutRef.current = setTimeout(() => {
       updateNote(noteId, updates);
     }, 500);
+
+    // Update embeddings with longer debounce (2 seconds after save)
+    if (embeddingTimeoutRef.current) {
+      clearTimeout(embeddingTimeoutRef.current);
+    }
+    embeddingTimeoutRef.current = setTimeout(() => {
+      updateNoteEmbedding(noteId).catch(console.error);
+    }, 2500);
   };
 
   const handleTogglePin = async () => {
@@ -140,6 +153,7 @@ export default function NotePage() {
 
       <CommandPalette />
       <AIChatPanel noteContent={note.plainText} noteTitle={note.title} />
+      <SemanticSearch open={semanticSearchOpen} onOpenChange={setSemanticSearchOpen} />
     </div>
   );
 }
