@@ -12,6 +12,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { common, createLowlight } from 'lowlight';
 import { EditorToolbar } from './EditorToolbar';
 import { SlashCommand } from './SlashCommand';
+import { AIAutocomplete } from './extensions/AIAutocomplete';
 
 const lowlight = createLowlight(common);
 
@@ -47,6 +48,11 @@ export function Editor({ content, onUpdate, editable = true }: EditorProps) {
         lowlight,
       }),
       SlashCommand,
+      AIAutocomplete.configure({
+        debounceMs: 500,
+        minChars: 20,
+        enabled: true,
+      }),
     ],
     content: content ?? undefined,
     editable,

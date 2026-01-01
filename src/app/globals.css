@@ -190,3 +190,15 @@
 .tippy-content {
   @apply p-0;
 }
+
+/* AI Autocomplete ghost text */
+.ai-suggestion {
+  @apply text-muted-foreground/50 pointer-events-none;
+  font-style: italic;
+}
+
+/* Hint for accepting suggestion */
+.ProseMirror:has(.ai-suggestion)::after {
+  content: 'Tab to accept';
+  @apply fixed bottom-4 right-4 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md opacity-75;
+}
