@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:tiptap.dev)",
+      "WebFetch(domain:dev.to)",
+      "WebFetch(domain:github.com)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(xcopy /E /H /Y \"note-taking-app\\\\*\" \"NoteTakingApp\"\" && rmdir /S /Q \"note-taking-app \")",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: AI-Powered Note Taking App\n\nFeatures:\n- Next.js 14+ with App Router and TypeScript\n- Notion-like block editor with Tiptap \\(slash commands, rich formatting\\)\n- AI chat assistant powered by OpenAI \\(GPT-4o\\)\n- Local-first storage with IndexedDB \\(Dexie.js\\)\n- Beautiful minimal UI with shadcn/ui and Tailwind CSS\n- Dark/light mode support\n- Command palette \\(Cmd+K\\) for quick navigation\n- Auto-save with debouncing\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}
